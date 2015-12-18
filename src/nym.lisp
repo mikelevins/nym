@@ -24,75 +24,40 @@
 
   ;; -- panes ---------------------------------------------
   (:panes
-   (samples-pane <samples-list-pane> :samples samples :reader samples-pane)
-   (starts-pane <samples-list-pane> :samples starts :reader starts-pane)
-   (parts-pane <samples-list-pane> :samples parts :reader parts-pane)
-   (ends-pane <samples-list-pane> :samples ends :reader ends-pane)
-   (names-pane <samples-list-pane> :samples nil :reader names-pane)
-   (import-button push-button :text "Import..." :reader import-button
-                  :callback-type :data-interface
-                  :selection-callback 'import-selection-callback)
-   (generate-button push-button :text "Generate" :reader generate-button
-                    :callback-type :data-interface
-                    :selection-callback 'generate-selection-callback))
+   (languages-label title-pane :title "Languages")
+   (languages-pane list-panel)
+   (find-languages-button push-button :text "Find languages...")
+   (generate-label title-pane :title "Generate")
+   (count-control slider :start 1 :end 25)
+   (count-label title-pane :title "1")
+   (generate-button push-button :text "Names")
+   (samples-label title-pane :title "Example names")
+   (samples-pane list-panel)
+   (names-label title-pane :title "Generated names")
+   (names-pane list-panel))
 
   ;; -- layouts ---------------------------------------------
   (:layouts
-   (controls-layout row-layout '(import-button nil generate-button))
-   (samples-layout column-layout '(samples-pane))
-   (parts-layout row-layout '(starts-pane parts-pane ends-pane))
-   (names-layout column-layout '(names-pane))
-   (data-layout row-layout '(samples-layout parts-layout names-layout))
-   (main-layout column-layout '(controls-layout data-layout)
+   (languages-layout column-layout '(languages-label languages-pane))
+   (samples-layout column-layout '(samples-label samples-pane))
+   (names-layout column-layout '(names-label names-pane))
+   (contents-layout row-layout '(languages-layout samples-layout names-layout))
+   (footer-layout row-layout '(find-languages-button nil
+                               generate-label count-control count-label generate-button))
+   (main-layout column-layout '(contents-layout
+                                footer-layout)
                 :reader main-layout :border 4))
 
   
   ;; -- defaults ---------------------------------------------
   (:default-initargs :layout 'main-layout))
 
-(defmethod update-instance ((ui <nym-ui>)(samples list))
-  (setf (pane-samples ui) samples)
-  (let* ((parsed (parse-names (pane-samples ui)))
-         (starts (first parsed))
-         (parts (second parsed))
-         (ends (third parsed)))
-    ;; update the slots
-    (setf (pane-starts ui) starts)
-    (setf (pane-parts ui) parts)
-    (setf (pane-ends ui) ends)
-    ;; update the panes
-    (setf (collection-items (samples-pane (starts-pane ui)))
-          (pane-starts ui))
-    (setf (collection-items (samples-pane (parts-pane ui)))
-          (pane-parts ui))
-    (setf (collection-items (samples-pane (ends-pane ui)))
-          (pane-ends ui))))
-
-(defmethod initialize-instance :after ((ui <nym-ui>) &rest initargs &key &allow-other-keys)
-  (update-instance ui (pane-samples ui)))
-
 ;;; ---------------------------------------------------------------------
 ;;; UI functions
 ;;; ---------------------------------------------------------------------
-
-(defun import-selection-callback (data interface)
-  (let* ((path (prompt-for-file "Choose a name file" :filter "*.names")))
-    (when path
-      (update-instance interface (read-names path)))))
-
-(defun generate-selection-callback (data interface)
-  (let ((names (sort (remove-duplicates
-                      (generate-names 10
-                                      (pane-starts interface)
-                                      (pane-parts interface)
-                                      (pane-ends interface))
-                      :test #'equalp)
-                     #'string<)))
-    (setf (collection-items (samples-pane (names-pane interface)))
-          names)))
 
 ;;; ---------------------------------------------------------------------
 ;;; test code
 ;;; ---------------------------------------------------------------------
 ;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/dwarf.names"))
-;;; (defparameter $win (contain (make-instance '<nym-ui> :samples $names :width 800 :height 600)))
+;;; (defparameter $win (contain (make-instance '<nym-ui> :samples $names :width 800 :height 400)))

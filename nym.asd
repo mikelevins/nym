@@ -11,7 +11,6 @@
                                      (:file "import")
                                      (:file "names")
                                      (:file "gen")
-                                     (:file "samples-list")
                                      (:file "nym")))))
 
 

@@ -24,28 +24,33 @@
 
   ;; -- panes ---------------------------------------------
   (:panes
+   (languages-folder-label title-pane :title "Languages folder:")
+   (languages-pathname-label title-pane :title "")
+   (languages-pathname-button push-button :text "Find Languages...")
    (languages-label title-pane :title "Languages")
    (languages-pane list-panel)
-   (find-languages-button push-button :text "Find languages...")
-   (generate-label title-pane :title "Generate")
-   (count-control slider :start 1 :end 25)
-   (count-label title-pane :title "1")
-   (generate-button push-button :text "Names")
-   (samples-label title-pane :title "Example names")
+   (count-control text-input-range :start 1 :end 25)
+   (generate-button push-button :text "Generate")
+   (samples-label title-pane :title "Examples")
    (samples-pane list-panel)
-   (names-label title-pane :title "Generated names")
+   (names-label title-pane :title "Names")
    (names-pane list-panel))
 
   ;; -- layouts ---------------------------------------------
   (:layouts
-   (languages-layout column-layout '(languages-label languages-pane))
-   (samples-layout column-layout '(samples-label samples-pane))
-   (names-layout column-layout '(names-label names-pane))
+   (languages-label-layout row-layout '(languages-label) :external-max-height 32 :adjust :center)
+   (languages-layout column-layout '(languages-label-layout languages-pane))
+   (samples-label-layout row-layout '(samples-label) :external-max-height 32 :adjust :center)
+   (samples-layout column-layout '(samples-label-layout samples-pane))
+   (generate-layout row-layout '(names-label nil generate-button count-control)
+                    :external-max-height 32 :adjust :center)
+   (names-layout column-layout '(generate-layout names-pane))
    (contents-layout row-layout '(languages-layout samples-layout names-layout))
-   (footer-layout row-layout '(find-languages-button nil
-                               generate-label count-control count-label generate-button))
+   (find-languages-layout row-layout '(languages-folder-label
+                                       languages-pathname-label
+                                       nil languages-pathname-button))
    (main-layout column-layout '(contents-layout
-                                footer-layout)
+                                find-languages-layout)
                 :reader main-layout :border 4))
 
   

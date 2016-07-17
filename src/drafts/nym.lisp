@@ -16,7 +16,8 @@
 
 (define-interface <nym-ui> ()
   ;; -- slots ---------------------------------------------
-  ((samples :accessor pane-samples :initform nil :initarg :samples)
+  ((languages-folder :accessor languages-folder :initform nil :initarg :languages-folder)
+   (samples :accessor pane-samples :initform nil :initarg :samples)
    (triples :accessor pane-triples :initform nil)
    (starts :accessor pane-starts :initform nil)
    (parts :accessor pane-parts :initform nil)

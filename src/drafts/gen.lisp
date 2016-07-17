@@ -48,9 +48,11 @@
 ;;; test code
 ;;; ---------------------------------------------------------------------
 ;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/us.names"))
+;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/dickens.names"))
+;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/gnome.names"))
 ;;; (defparameter $parse (parse-names $names))
 ;;; (defparameter $starts (first $parse))
 ;;; (defparameter $parts (second $parse))
 ;;; (defparameter $ends (third $parse))
 ;;; (generate-name (any $starts) $parts $ends)
-;;; (generate-names 5 $starts $parts $ends)
+;;; (generate-names 100 $starts $parts $ends)

@@ -45,4 +45,4 @@
     (list starts parts ends)))
 
 ;;; (time (defparameter $names (read-names "/Users/mikel/Workshop/src/clnamer/us.names")))
-;;; (time (defparameter $samples (parse-names $samples)))
+;;; (time (defparameter $samples (parse-names $names)))

@@ -2,7 +2,7 @@
 ;;;;
 ;;;; Name:          import.lisp
 ;;;; Project:       nym
-;;;; Purpose:       reading sample names from text
+;;;; Purpose:       reading names from a text file
 ;;;; Author:        mikel evins
 ;;;; Copyright:     2015 by mikel evins
 ;;;;

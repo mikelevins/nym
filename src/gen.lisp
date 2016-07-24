@@ -55,4 +55,4 @@
 ;;; (defparameter $parts (second $parse))
 ;;; (defparameter $ends (third $parse))
 ;;; (generate-name (any $starts) $parts $ends)
-;;; (generate-names 100 $starts $parts $ends)
+;;; (time (generate-names 1000 $starts $parts $ends))

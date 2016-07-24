@@ -10,6 +10,12 @@
 
 (in-package #:nym)
 
+(defparameter *samples* nil)
+(defparameter *sample-triples* nil)
+(defparameter *sample-starts* nil)
+(defparameter *sample-parts* nil)
+(defparameter *sample-ends* nil)
+
 (defun empty-name? (str)
   (let ((trimmed (string-trim '(#\space) str)))
     (or (string= trimmed "")
@@ -24,9 +30,25 @@
          (filtered (remove-if #'empty-name?
                               lines)))
     ;; sort the output
-    (sort filtered #'string<)))
+    (setf *samples* (sort filtered #'string<))
+    ;; parse the names
+    (setf *sample-triples* (loop for sample in *samples* collect (triples sample)))
+    (setf *sample-starts* (sort (remove-duplicates (remove nil (mapcar #'first *sample-triples*)) :test #'equalp)
+                                #'string<))
+    (setf *sample-parts* (sort (remove-duplicates (remove nil (apply #'append (mapcar #'drop-first *sample-triples*))) :test #'equalp)
+                               #'string<))
+    (setf *sample-ends* (sort (remove-duplicates (remove nil (mapcar #'last-element *sample-triples*)) :test #'equalp)
+                              #'string<))
+    *samples*))
 
 (defmethod read-names ((filename string))
   (read-names (pathname filename)))
 
-;;; (time (defparameter $samples (read-names "/Users/mikel/Workshop/src/clnamer/us.names")))
+;;; (time (read-names "/Users/mikel/Workshop/src/clnamer/us.names"))
+;;; *samples*
+;;; *sample-triples*
+;;; *sample-starts*
+;;; *sample-parts*
+;;; *sample-ends*
+
+

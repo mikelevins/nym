@@ -9,7 +9,7 @@
                         :serial t
                         :components ((:file "package")
                                      (:file "import")
-                                     (:file "names")
+                                     (:file "utils")
                                      (:file "gen")))))
 
 

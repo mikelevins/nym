@@ -19,40 +19,40 @@
 (defmethod merge-parts ((left string)(right string))
   (concatenate 'string left (subseq right 2)))
 
-(defun any (sequence)
-  (let ((len (length sequence)))
-    (cond
-      ((< len 1) nil)
-      ((= len 1) (first sequence))
-      (t (elt sequence
-              (random (length sequence)))))))
+(defmethod find-extension ((start string))
+  (choose-any (remove-if-not (lambda (part)(mergeable? start part))
+                             *sample-parts*)))
 
-(defmethod find-extension ((start string)(parts list))
-  (any (remove-if-not (lambda (part)(mergeable? start part))
-                  parts)))
+(defun choose-start ()
+  (choose-any *sample-starts*))
 
-(defmethod generate-name ((start string)(parts list)(ends list))
-  (let ((next (find-extension start parts)))
+(defun generate-name (&optional start)
+  (let* ((start (or start (choose-start)))
+         (next (find-extension start)))
     (if next
-        (if (find next ends :test #'equalp)
+        (if (find next *sample-ends* :test #'equal)
             (merge-parts start next)
-            (generate-name (merge-parts start next)
-                           parts ends))
+            (generate-name (merge-parts start next)))
         start)))
 
-(defmethod generate-names ((count integer)(starts list)(parts list)(ends list))
-  (loop for i from 0 below count
-     collect (generate-name (any starts) parts ends)))
+(defmethod generate-names ((count integer))
+  (let ((gencount 0)
+        (names nil))
+    (block generating
+      (loop
+         (when (>= gencount count)
+           (return-from generating
+             (sort names #'string<)))
+         (let ((next (generate-name)))
+           (unless (find next names :test #'equal)
+             (push next names)
+             (incf gencount)))))))
 
 ;;; ---------------------------------------------------------------------
 ;;; test code
 ;;; ---------------------------------------------------------------------
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/us.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/dickens.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/gnome.names"))
-;;; (defparameter $parse (parse-names $names))
-;;; (defparameter $starts (first $parse))
-;;; (defparameter $parts (second $parse))
-;;; (defparameter $ends (third $parse))
-;;; (generate-name (any $starts) $parts $ends)
-;;; (time (generate-names 1000 $starts $parts $ends))
+;;; (time (read-names "/Users/mikel/Workshop/src/nym/data/us.names"))
+;;; (time (read-names "/Users/mikel/Workshop/src/nym/data/dickens.names"))
+;;; (time (read-names "/Users/mikel/Workshop/src/nym/data/gnome.names"))
+;;; (time (generate-name))
+;;; (time (generate-names 100))

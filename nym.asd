@@ -8,9 +8,8 @@
   :components ((:module "src"
                         :serial t
                         :components ((:file "package")
-                                     (:file "import")
-                                     (:file "utils")
-                                     (:file "gen")))))
+                                     (:file "travesty")
+                                     (:file "utils")))))
 
 
 ;;; (asdf:load-system :nym)

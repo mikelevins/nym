@@ -9,7 +9,8 @@
                         :serial t
                         :components ((:file "package")
                                      (:file "travesty")
-                                     (:file "utils")))))
+                                     (:file "utils")
+                                     (:file "nym")))))
 
 
 ;;; (asdf:load-system :nym)

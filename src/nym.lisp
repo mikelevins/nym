@@ -65,5 +65,5 @@
 ;;; ---------------------------------------------------------------------
 ;;; test code
 ;;; ---------------------------------------------------------------------
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/dwarf.names"))
+;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/gnome.names"))
 ;;; (defparameter $win (contain (make-instance '<nym-ui> :samples $names :width 800 :height 400)))

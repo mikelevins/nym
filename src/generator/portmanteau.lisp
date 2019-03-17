@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym)
+(in-package #:nym-base)
 
 (defun empty-text? (str)
   (let ((trimmed (string-trim '(#\space) str)))
@@ -61,3 +61,8 @@
 
 (defun gen-portmanteaus (samples count)
   (loop for i from 0 below count collect (gen-portmanteau samples)))
+
+;;; (progn (setf $samples (read-samples "/usr/share/dict/words")) t)
+;;; (length $samples)
+;;; (gen-portmanteau $samples)
+;;; (gen-portmanteaus $samples 200)

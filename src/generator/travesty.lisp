@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym)
+(in-package #:nym-base)
 
 ;;; ---------------------------------------------------------------------
 ;;; CLASS travesty-map
@@ -21,36 +21,42 @@
    (parts :accessor parts :initform nil :initarg :parts)
    (ends :accessor ends :initform nil :initarg :ends)))
 
-(defmethod initialize-instance :after ((map travesty-map) &rest initargs &key &allow-other-keys)
+(defun tidy (namelist)
+  (sort (remove-duplicates
+         (remove nil namelist)
+         :test #'equalp)
+        #'string<))
+
+(defmethod initialize-instance :after ((map travesty-map)
+                                       &rest initargs
+                                       &key &allow-other-keys)
   (with-slots (samples triples starts parts ends) map
     (when samples
       (setf triples (loop for sample in samples collect (triples sample)))
-      (setf starts (sort (remove-duplicates (remove nil (mapcar #'first triples)) :test #'equalp)
-                         #'string<))
-      (setf parts (sort (remove-duplicates (remove nil (apply #'append (mapcar #'drop-first triples))) :test #'equalp)
-                        #'string<))
-      (setf ends (sort (remove-duplicates (remove nil (mapcar #'last-element triples)) :test #'equalp)
-                       #'string<)))))
+      (setf starts (tidy (mapcar #'first triples)))
+      (setf parts (tidy (apply #'append (mapcar #'drop-first triples))))
+      (setf ends (tidy (mapcar #'last-element triples))))))
 
 ;;; ---------------------------------------------------------------------
 ;;; reading sample names
 ;;; ---------------------------------------------------------------------
 
 (defun empty-name? (str)
-  (let ((trimmed (string-trim '(#\space) str)))
-    (or (string= trimmed "")
-        (char= #\# (elt trimmed 0)))))
+  (or (empty? str)
+      (every #'whitespace? str)))
+
+(defmethod read-lines ((filename pathname))
+  (with-open-file (in filename)
+    (loop for
+       line = (read-line in nil nil nil)
+       then (read-line in nil nil nil)
+       while line
+       collect line)))
 
 (defmethod read-names ((filename pathname))
-  (let* ((lines (with-open-file (in filename)
-                  (loop for line = (read-line in nil nil nil) then (read-line in nil nil nil)
-                     while line
-                     collect line)))
-         ;; filter out empty and comment lines
-         (filtered (remove-if #'empty-name?
-                              lines)))
-    ;; sort the output
-    (sort filtered #'string<)))
+  (sort (remove-if #'empty-name?
+                   (read-lines filename))
+        #'string<))
 
 (defmethod read-names ((filename string))
   (read-names (pathname filename)))
@@ -88,17 +94,8 @@
         start)))
 
 (defmethod generate-names ((map travesty-map)(count integer))
-  (let ((gencount 0)
-        (names nil))
-    (block generating
-      (loop
-         (when (>= gencount count)
-           (return-from generating
-             (sort names #'string<)))
-         (let ((next (generate-name map)))
-           (unless (find next names :test #'equal)
-             (push next names)
-             (incf gencount)))))))
+  (loop for i from 0 below count collect (generate-name map)))
+
 
 ;;; ---------------------------------------------------------------------
 ;;; test code
@@ -106,7 +103,8 @@
 ;;; (time (defparameter $samples (read-names "/Users/mikel/Workshop/src/nym/data/us.names")))
 ;;; (time (defparameter $samples (read-names "/Users/mikel/Workshop/src/nym/data/dickens.names")))
 ;;; (time (defparameter $samples (read-names "/Users/mikel/Workshop/src/nym/data/gnome.names")))
+;;; (time (defparameter $samples (read-names "/Users/mikel/Workshop/src/nym/data/goblin.names")))
+
 ;;; (time (defparameter $tmap (make-instance 'travesty-map :samples $samples)))
-;;; (time (generate-name $tmap))
 ;;; (time (generate-names $tmap 100))
-;;; (remove-if-not (lambda (nm)(char= #\W (elt nm 0))) (generate-names $tmap 100))
+

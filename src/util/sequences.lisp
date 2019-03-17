@@ -26,5 +26,8 @@
 (defmethod empty? ((thing sequence))
   (zerop (length thing)))
 
+(defun filter (fn sequence)
+  (remove-if-not fn sequence))
+
 (defmethod last-element ((thing list))
   (first (last thing)))

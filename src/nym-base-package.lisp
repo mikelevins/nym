@@ -1,4 +1,5 @@
 ;;;; nym-base-package.lisp
 
 (defpackage #:nym-base
-  (:use #:cl))
+  (:use #:cl)
+  (:export #:read-lines #:tidy-lines))

@@ -12,6 +12,11 @@
 
 
 
+(hunchentoot:define-easy-handler (options :uri "/") ()
+  (setf (hunchentoot:content-type*) "application/json")
+  (with-output-to-string (out)
+    (format out "Nym")))
+
 (hunchentoot:define-easy-handler (options :uri "/options") ()
   (setf (hunchentoot:content-type*) "application/json")
   (with-output-to-string (out)
@@ -38,6 +43,6 @@
       (st-json:write-json names out))))
 
 ;;; (setf hunchentoot::*catch-errors-p* nil)
-;;; (setf $server (make-instance 'hunchentoot:easy-acceptor :port 9000))
+;;; (setf $server (make-instance 'hunchentoot:easy-acceptor :port 9001))
 ;;; (hunchentoot:start $server)
 ;;; (hunchentoot:stop $server)

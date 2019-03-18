@@ -11,9 +11,19 @@
 (in-package #:nym-base)
 
 (defun nym-data-directory ()
-  (asdf/system:system-relative-pathname :nym-gui "data/"))
+  (asdf/system:system-relative-pathname :nym-base "data/"))
+
+(defun nym-data-file (filename)
+  (merge-pathnames filename (nym-data-directory)))
 
 ;;; (nym-data-directory)
+
+
+(defmethod list-languages ((dir pathname))
+  (let* ((language-files (directory (merge-pathnames "*.names" dir)))
+         (languages (loop for file in language-files
+                          collect (pathname-name file))))
+    (sort languages #'string<)))
 
 (defmethod read-lines ((path pathname))
   (with-open-file (in path :direction :input)

@@ -24,7 +24,7 @@
    (languages-pane list-panel :reader languages-pane  :interaction :single-selection
                    :title "Languages" :title-position :top :title-adjust :left
                    :selection-callback 'did-select-language :callback-type :data-interface
-                   :items (list-languages (data-directory interface)))
+                   :items (nym-base::list-languages (data-directory interface))
    (samples-pane list-panel :reader samples-pane :interaction :no-selection
                  :title "Samples" :title-position :top :title-adjust :left)
    (count-control text-input-range :start 1 :end 100 :value 10 :reader count-control
@@ -70,12 +70,6 @@
         (setf (editor-pane-text (names-pane intf)) "")
         (setf (travesty-map intf)
               (make-travesty-map tidied-names))))))
-
-(defmethod list-languages ((dir pathname))
-  (let* ((language-files (directory (merge-pathnames "*.names" dir)))
-         (languages (loop for file in language-files
-                          collect (pathname-name file))))
-    (sort languages #'string<)))
 
 (defun did-select-language (language-name intf)
   (when language-name

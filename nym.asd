@@ -15,7 +15,7 @@
     :author "mikel evins <mikel@evins.net>"
     :license "Apache-2.0"
     :serial t
-    :components ((:module "src"
+    :components ((:module "base"
                           :serial t
                           :components ((:file "nym-base-package")
                                        (:module "util"
@@ -32,16 +32,17 @@
 ;;; (asdf:load-system :nym-base)
 
 (asdf:defsystem #:nym-gui
-  :description "The nym desktop GUI"
-  :author "mikel evins <mikel@evins.net>"
-  :license "Apache-2.0"
-  :depends-on (:nym-base)
-  :serial t
-  :components ((:module "src"
-                        :serial t
-                        :components ((:file "nym-gui-package")
-                                     (:module "ui"
-                                              :serial t
-                                              :components ((:file "nym-window")))))))
+    :description "The nym desktop GUI"
+    :author "mikel evins <mikel@evins.net>"
+    :license "Apache-2.0"
+    :depends-on (:nym-base)
+    :serial t
+    :components ((:module "gui"
+                          :serial t
+                          :components ((:file "nym-gui-package")
+                                       (:file "nym-window")))))
 
 ;;; (asdf:load-system :nym-gui)
+
+
+

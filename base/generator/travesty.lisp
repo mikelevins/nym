@@ -37,6 +37,9 @@
       (setf parts (tidy (apply #'append (mapcar #'drop-first triples))))
       (setf ends (tidy (mapcar #'last-element triples))))))
 
+(defun make-travesty-map (name-list)
+  (make-instance 'travesty-map :samples name-list))
+
 ;;; ---------------------------------------------------------------------
 ;;; reading sample names
 ;;; ---------------------------------------------------------------------
@@ -44,14 +47,6 @@
 (defun empty-name? (str)
   (or (empty? str)
       (every #'whitespace? str)))
-
-(defmethod read-lines ((filename pathname))
-  (with-open-file (in filename)
-    (loop for
-       line = (read-line in nil nil nil)
-       then (read-line in nil nil nil)
-       while line
-       collect line)))
 
 (defmethod read-names ((filename pathname))
   (sort (remove-if #'empty-name?

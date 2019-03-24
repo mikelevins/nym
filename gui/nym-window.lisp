@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym-gui)
+(in-package :nym-gui)
 
 ;;; ---------------------------------------------------------------------
 ;;; nym-window
@@ -22,10 +22,12 @@
   ;; -- panes ---------------------------------------------
   (:panes
    (languages-pane list-panel :reader languages-pane  :interaction :single-selection
+                   :font (gp:make-font-description :size 16)
                    :title "Languages" :title-position :top :title-adjust :left
                    :selection-callback 'did-select-language :callback-type :data-interface
-                   :items (nym-base::list-languages (data-directory interface))
+                   :items (nym-base::list-languages (data-directory interface)))
    (samples-pane list-panel :reader samples-pane :interaction :no-selection
+                 :font (gp:make-font-description :size 16)
                  :title "Samples" :title-position :top :title-adjust :left)
    (count-control text-input-range :start 1 :end 100 :value 10 :reader count-control
                   :title "Generate how many?" :title-position :left
@@ -35,7 +37,7 @@
                     :visible-min-height 32
                     :visible-max-height 32)
    (names-pane editor-pane :enabled :read-only :buffer-name :temp :reader names-pane
-               :font (gp:make-font-description :size 14)
+               :font (gp:make-font-description :size 16)
                :background :white))
 
   ;; -- layouts ---------------------------------------------
@@ -45,7 +47,6 @@
    (generator-layout column-layout '(generator-controls-layout names-pane))
    (main-layout row-layout '(browser-layout :divider generator-layout)
                 :reader main-layout))
-
   
   ;; -- defaults ---------------------------------------------
   (:default-initargs :layout 'main-layout
@@ -56,6 +57,8 @@
                       (let ((selected-language (choice-selected-item (languages-pane intf))))
                         (when selected-language
                           (update-language-selection intf selected-language))))))
+
+
 
 (defmethod update-language-selection ((intf nym-window)(language-name string))
   (let ((language-path (merge-pathnames (concatenate 'string language-name ".names")

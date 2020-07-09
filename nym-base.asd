@@ -23,10 +23,13 @@
                                                 :components ((:file "sequences")
                                                              (:file "strings")
                                                              (:file "files")))
-                                       (:module "generator"
+                                       (:module "generators"
                                                 :serial t
                                                 :components ((:file "travesty")
-                                                             (:file "portmanteau")))))))
+                                                             (:file "portmanteau")))
+                                       (:module "models"
+                                                :serial t
+                                                :components ((:file "character-tries")))))))
 
 
 ;;; (asdf:load-system :nym-base)

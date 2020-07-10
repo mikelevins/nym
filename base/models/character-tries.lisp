@@ -47,38 +47,20 @@
 ;;;    (C (a (t ($)))))
 
 (defclass character-trie ()
-  ((prefixes :reader %prefixes :initform (make-hash-table))
-   (nuclei :reader %nuclei :initform (make-hash-table))
-   (suffixes :reader %suffixes :initform (make-hash-table))))
+  ((prefixes :accessor prefixes :initform (fset:set))
+   (nuclei :accessor nuclei :initform (fset:set))
+   (suffixes :accessor suffixes :initform (fset:set))))
 
 (defmethod print-object ((trie character-trie)(out stream))
   (print-unreadable-object (trie out :type t)
     (format out "prefixes[~A], nuclei[~A], suffixes[~A]"
-            (hash-table-count (%prefixes trie))
-            (hash-table-count (%nuclei trie))
-            (hash-table-count (%suffixes trie)))))
+            (fset:size (prefixes trie))
+            (fset:size (nuclei trie))
+            (fset:size (suffixes trie)))))
 
 (defun character-trie ()(make-instance 'character-trie))
 
 ;;; (character-trie)
-
-(defmethod prefixes ((trie character-trie))
-  (let ((result nil))
-    (maphash (lambda (key val) (push key result))
-             (%prefixes trie))
-    (reverse result)))
-
-(defmethod nuclei ((trie character-trie))
-  (let ((result nil))
-    (maphash (lambda (key val) (push key result))
-             (%nuclei trie))
-    (reverse result)))
-
-(defmethod suffixes ((trie character-trie))
-  (let ((result nil))
-    (maphash (lambda (key val) (push key result))
-             (%suffixes trie))
-    (reverse result)))
 
 (defmethod initials ((text string))
   (let* ((characters (coerce text 'list))
@@ -112,16 +94,16 @@
 ;;; (middles "Jonathan")
 
 (defmethod add-prefix ((trie character-trie) (pref string))
-  (setf (gethash pref (%prefixes trie))
-        (1+ (gethash pref (%prefixes trie) 0))))
+  (setf (prefixes trie)
+        (fset:with (prefixes trie) pref)))
 
 (defmethod add-nucleus ((trie character-trie) (nuc string))
-  (setf (gethash nuc (%nuclei trie))
-        (1+ (gethash nuc (%nuclei trie) 0))))
+  (setf (nuclei trie)
+        (fset:with (nuclei trie) nuc)))
 
 (defmethod add-suffix ((trie character-trie) (suf string))
-  (setf (gethash suf (%suffixes trie))
-        (1+ (gethash suf (%suffixes trie) 0))))
+  (setf (suffixes trie)
+        (fset:with (suffixes trie) suf)))
 
 (defmethod character-trie-insert ((trie character-trie)(text string))
   (let ((prefixes (initials text))
@@ -133,7 +115,9 @@
     trie))
 
 ;;; (setf $trie (character-trie))
-;;; (character-trie-insert $trie "Fred")
-;;; (prefixes $trie)
-;;; (nuclei $trie)
-;;; (suffixes $trie)
+;;; (setf $samples (read-names "/home/mikel/Workshop/src/nym/data/goblin.names"))
+;;; (loop for nm in $samples do (character-trie-insert $trie nm))
+;;; (time (fset:size (prefixes $trie)))
+;;; (time (fset:size (nuclei $trie)))
+;;; (time (fset:size (suffixes $trie)))
+

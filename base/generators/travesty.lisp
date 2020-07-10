@@ -41,25 +41,6 @@
   (make-instance 'travesty-map :samples name-list))
 
 ;;; ---------------------------------------------------------------------
-;;; reading sample names
-;;; ---------------------------------------------------------------------
-
-(defun empty-name? (str)
-  (or (empty? str)
-      (every #'whitespace? str)))
-
-(defmethod read-names ((filename pathname))
-  (sort (remove-if #'empty-name?
-                   (read-lines filename))
-        #'string<))
-
-(defmethod read-names ((filename string))
-  (read-names (pathname filename)))
-
-;;; (time (defparameter $samples (read-names "/Users/mikel/Workshop/src/clnamer/us.names")))
-;;; (time (defparameter $tmap (make-instance 'travesty-map :samples $samples)))
-
-;;; ---------------------------------------------------------------------
 ;;; generating names
 ;;; ---------------------------------------------------------------------
 

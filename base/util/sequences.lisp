@@ -18,14 +18,6 @@
       (t (elt seq
               (random (length seq)))))))
 
-(defmethod any ((set fset:wb-set))
-  (let ((len (fset:size set)))
-    (cond
-      ((< len 1) nil)
-      ((= len 1) (fset:at-rank set 0))
-      (t (fset:at-rank set
-                 (random len))))))
-
 (defmethod drop-first ((thing null)) nil)
 (defmethod drop-first ((thing list))
   (cdr thing))

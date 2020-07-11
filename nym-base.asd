@@ -15,7 +15,6 @@
     :author "mikel evins <mikel@evins.net>"
     :license "Apache-2.0"
     :serial t
-    :depends-on (:fset)
     :components ((:module "base"
                           :serial t
                           :components ((:file "nym-base-package")
@@ -25,13 +24,9 @@
                                                              (:file "strings")
                                                              (:file "files")
                                                              (:file "samples")))
-                                       (:module "models"
-                                                :serial t
-                                                :components ((:file "character-tries")))
                                        (:module "generators"
                                                 :serial t
-                                                :components ((:file "tries-travesty")
-                                                             (:file "triples-travesty")
+                                                :components ((:file "triples-travesty")
                                                              (:file "portmanteau")))))))
 
 

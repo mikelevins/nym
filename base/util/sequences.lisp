@@ -10,13 +10,21 @@
 
 (in-package #:nym-base)
 
-(defun choose-any (sequence)
-  (let ((len (length sequence)))
+(defmethod any ((seq sequence))
+  (let ((len (length seq)))
     (cond
       ((< len 1) nil)
-      ((= len 1) (first sequence))
-      (t (elt sequence
-              (random (length sequence)))))))
+      ((= len 1) (first seq))
+      (t (elt seq
+              (random (length seq)))))))
+
+(defmethod any ((set fset:wb-set))
+  (let ((len (fset:size set)))
+    (cond
+      ((< len 1) nil)
+      ((= len 1) (fset:at-rank set 0))
+      (t (fset:at-rank set
+                 (random len))))))
 
 (defmethod drop-first ((thing null)) nil)
 (defmethod drop-first ((thing list))

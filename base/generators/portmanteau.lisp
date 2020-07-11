@@ -29,9 +29,6 @@
 (defmethod read-samples ((filename string))
   (read-samples (pathname filename)))
 
-(defun any (seq)
-  (elt seq (random (length seq))))
-
 (defmethod any-triple ((string string))
   (if (<= (length string) 3)
       string
@@ -65,4 +62,4 @@
 ;;; (progn (setf $samples (read-samples "/usr/share/dict/words")) t)
 ;;; (length $samples)
 ;;; (gen-portmanteau $samples)
-;;; (gen-portmanteaus $samples 200)
+;;; (gen-portmanteaus $samples 20)

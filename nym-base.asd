@@ -25,13 +25,14 @@
                                                              (:file "strings")
                                                              (:file "files")
                                                              (:file "samples")))
-                                       (:module "generators"
-                                                :serial t
-                                                :components ((:file "travesty")
-                                                             (:file "portmanteau")))
                                        (:module "models"
                                                 :serial t
-                                                :components ((:file "character-tries")))))))
+                                                :components ((:file "character-tries")))
+                                       (:module "generators"
+                                                :serial t
+                                                :components ((:file "tries-travesty")
+                                                             (:file "triples-travesty")
+                                                             (:file "portmanteau")))))))
 
 
 ;;; (asdf:load-system :nym-base)

@@ -1,6 +1,6 @@
 ;;;; ***********************************************************************
 ;;;;
-;;;; Name:          travesty.lisp
+;;;; Name:          triples-travesty.lisp
 ;;;; Project:       nym
 ;;;; Purpose:       generating names using travesties
 ;;;; Author:        mikel evins
@@ -54,11 +54,11 @@
   (concatenate 'string left (subseq right 2)))
 
 (defmethod find-extension ((map travesty-map)(start string))
-  (choose-any (remove-if-not (lambda (part)(mergeable? start part))
+  (any (remove-if-not (lambda (part)(mergeable? start part))
                              (parts map))))
 
 (defmethod choose-start ((map travesty-map))
-  (choose-any (starts map)))
+  (any (starts map)))
 
 (defmethod generate-name ((map travesty-map) &optional start)
   (let* ((start (or start (choose-start map)))

@@ -18,6 +18,9 @@
       (t (elt seq
               (random (length seq)))))))
 
+(defmethod chunk-sequence ((seq sequence) (chunk-size integer))
+  (take-by chunk-size 1 seq))
+
 (defmethod drop-first ((thing null)) nil)
 (defmethod drop-first ((thing list))
   (cdr thing))
@@ -36,6 +39,9 @@
 
 (defmethod last-element ((thing list))
   (first (last thing)))
+
+(defmethod last-n-elements ((thing sequence)(n integer))
+  (subseq thing (- (length thing) n) (length thing)))
 
 (defun range (start end &optional (by 1))
   (loop for i from start below end by by collect i))

@@ -14,16 +14,17 @@
   (or (zerop (length s))
       (every #'whitespace? s)))
 
-(defmethod prefix-match? ((left string)(right string))
-  (cond ((zerop (length left)) t)
-        ((< (length right)(length left)) nil)
-        (t (and (block searching
-                  (loop for i from 0 below (length left)
-                     do (unless (char= (elt left i)
-                                       (elt right i))
-                          (return-from searching nil)))
-                  t)
-                t))))
+(defmethod prefix-match? ((left string)(right string) &key prefix-length)
+  (let ((prefix-length (or prefix-length (length left))))
+    (cond ((zerop prefix-length) t)
+          ((< (length right) prefix-length) nil)
+          (t (and (block searching
+                    (loop for i from 0 below prefix-length
+                       do (unless (char= (elt left i)
+                                         (elt right i))
+                            (return-from searching nil)))
+                    t)
+                  t)))))
 
 (defmethod suffix-match? ((left string)(right string))
   (cond ((zerop (length left)) t)
@@ -39,10 +40,6 @@
                               (return-from searching nil)))))
                   t)
                 t))))
-
-(defmethod triples ((str string))
-  (loop for i from 0 below (- (length str) 2)
-     collect (subseq str i (+ i 3))))
 
 (defmethod whitespace? ((ch character))
   (member ch '(#\space #\tab #\return #\linefeed)

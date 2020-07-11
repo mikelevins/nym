@@ -26,7 +26,7 @@
                                                              (:file "samples")))
                                        (:module "generators"
                                                 :serial t
-                                                :components ((:file "triples-travesty")
+                                                :components ((:file "chunk-travesty")
                                                              (:file "portmanteau")))))))
 
 

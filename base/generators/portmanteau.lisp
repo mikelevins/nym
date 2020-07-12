@@ -14,7 +14,7 @@
   (block generating
     (loop for i from 0 below max-tries
        do (let* ((start-word (any samples))
-                 (seed (any (triples start-word)))
+                 (seed (any (chunk-sequence start-word 3)))
                  (end-word (find-sample-containing seed samples))
                  (result (multiple-value-bind (left seed _)(split-sample start-word seed)
                            (declare (ignore _))

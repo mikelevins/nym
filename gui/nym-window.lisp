@@ -17,7 +17,7 @@
 (define-interface nym-window ()
   ;; -- slots ---------------------------------------------
   ((data-directory :accessor data-directory :initform (nym-base::nym-data-directory))
-   (travesty-map :accessor travesty-map :initform nil))
+   (samples :accessor samples :initform nil))
 
   ;; -- panes ---------------------------------------------
   (:panes
@@ -26,9 +26,6 @@
                    :title "Languages" :title-position :top :title-adjust :left
                    :selection-callback 'did-select-language :callback-type :data-interface
                    :items (nym-base::list-languages (data-directory interface)))
-   (samples-pane list-panel :reader samples-pane :interaction :no-selection
-                 :font (gp:make-font-description :size 16)
-                 :title "Samples" :title-position :top :title-adjust :left)
    (count-control text-input-range :start 1 :end 100 :value 10 :reader count-control
                   :title "Generate how many?" :title-position :left
                   :visible-max-height 32)
@@ -42,7 +39,7 @@
 
   ;; -- layouts ---------------------------------------------
   (:layouts
-   (browser-layout column-layout '(languages-pane :divider samples-pane))
+   (browser-layout column-layout '(languages-pane))
    (generator-controls-layout row-layout '(count-control nil generate-button))
    (generator-layout column-layout '(generator-controls-layout names-pane))
    (main-layout row-layout '(browser-layout :divider generator-layout)
@@ -59,20 +56,14 @@
                           (update-language-selection intf selected-language))))))
 
 
-
 (defmethod update-language-selection ((intf nym-window)(language-name string))
   (let ((language-path (merge-pathnames (concatenate 'string language-name ".names")
                                         (nym-base::nym-data-directory))))
     (when language-path
-      (let* ((sample-names (read-lines language-path))
+      (let* ((sample-names (read-samples language-path))
              (tidied-names (tidy-lines sample-names)))
-        (setf (collection-items (samples-pane intf))
-              tidied-names)
-        (setf (titled-object-title (samples-pane intf))
-              language-name)
-        (setf (editor-pane-text (names-pane intf)) "")
-        (setf (travesty-map intf)
-              (make-travesty-map tidied-names))))))
+        (setf (samples intf) tidied-names)
+        (setf (editor-pane-text (names-pane intf)) "")))))
 
 (defun did-select-language (language-name intf)
   (when language-name
@@ -80,8 +71,7 @@
 
 (defmethod make-names ((intf nym-window) data)
   (let* ((count (text-input-range-value (count-control intf)))
-         (names (sort (generate-names (travesty-map intf)
-                                      count)
+         (names (sort (nym-base::gen-chunk-travesties (samples intf) count)
                       #'string<))
          (names-text (with-output-to-string (out)
                        (loop for name in names 

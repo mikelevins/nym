@@ -78,11 +78,11 @@
 ;;; ---------------------------------------------------------------------
 ;;; test code
 ;;; ---------------------------------------------------------------------
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/dickens.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/dwarf.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/forsaken.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/gnome.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/goblin.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/troll.names"))
-;;; (defparameter $names (read-names "/Users/mikel/Workshop/src/nym/data/us.names"))
+;;; (defparameter $names (read-samples "~/Workshop/src/nym/data/dickens.names"))
+;;; (defparameter $names (read-samples "~/Workshop/src/nym/data/dwarf.names"))
+;;; (defparameter $names (read-samples "~/Workshop/src/nym/data/forsaken.names"))
+;;; (defparameter $names (read-samples "~/Workshop/src/nym/data/gnome.names"))
+;;; (defparameter $names (read-samples "~/Workshop/src/nym/data/goblin.names"))
+;;; (defparameter $names (read-samples "~/Workshop/src/nym/data/troll.names"))
+;;; (defparameter $names (read-samples "~/Workshop/src/nym/data/us.names"))
 ;;; (defparameter $win (contain (make-instance '<nym-ui> :samples $names :width 800 :height 400)))

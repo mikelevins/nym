@@ -23,7 +23,7 @@
        t))
 
 (defmethod read-samples ((filename pathname))
-  (sort (remove-if #'empty-name?
+  (sort (remove-if #'empty-sample?
                    (read-lines filename))
         #'string<))
 

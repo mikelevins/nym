@@ -40,5 +40,5 @@
          (ends (remove nil (mapcar #'last-element chunked-samples))))
     (loop for i from 0 below count collect (gen-chunk-travesty starts parts ends :chunk-size chunk-size))))
 
-;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/gnome.names") 100))
+;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/gnome.names") 10))
 

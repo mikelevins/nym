@@ -2,4 +2,4 @@
 
 (defpackage #:nym-base
   (:use #:cl)
-  (:export #:generate-names #:make-travesty-map #:read-lines #:tidy-lines #:travesty-map))
+  (:export #:generate-names #:make-travesty-map #:read-samples #:tidy-lines #:travesty-map))

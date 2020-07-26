@@ -60,8 +60,8 @@
   (let ((language-path (merge-pathnames (concatenate 'string language-name ".names")
                                         (nym-base::nym-data-directory))))
     (when language-path
-      (let* ((sample-names (read-samples language-path))
-             (tidied-names (tidy-lines sample-names)))
+      (let* ((sample-names (nym-base::read-samples language-path))
+             (tidied-names (nym-base::tidy-lines sample-names)))
         (setf (samples intf) tidied-names)
         (setf (editor-pane-text (names-pane intf)) "")))))
 

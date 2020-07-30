@@ -15,19 +15,23 @@
     :author "mikel evins <mikel@evins.net>"
     :license "Apache-2.0"
     :serial t
+    :depends-on (:alexandria :folio2)
     :components ((:module "base"
                           :serial t
                           :components ((:file "nym-base-package")
                                        (:module "util"
                                                 :serial t
-                                                :components ((:file "sequences")
+                                                :components ((:file "bind")
+                                                             (:file "sequences")
                                                              (:file "strings")
                                                              (:file "files")
                                                              (:file "samples")))
                                        (:module "generators"
                                                 :serial t
                                                 :components ((:file "chunk-travesty")
-                                                             (:file "portmanteau")))))))
+                                                             (:file "portmanteau")
+                                                             (:file "phonotactic")
+                                                             (:file "segmenter")))))))
 
 
 ;;; (asdf:load-system :nym-base)

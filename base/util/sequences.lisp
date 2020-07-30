@@ -15,8 +15,14 @@
     (cond
       ((< len 1) nil)
       ((= len 1) (first seq))
-      (t (elt seq
-              (random (length seq)))))))
+      (t (elt seq (random len))))))
+
+(defmethod any ((seq fset:wb-seq))
+  (let ((len (fset:size seq)))
+    (cond
+      ((< len 1) nil)
+      ((= len 1) (fset:@ seq 0))
+      (t (fset:@ seq (random len))))))
 
 (defmethod chunk-sequence ((seq sequence) (chunk-size integer))
   (take-by chunk-size 1 seq))
@@ -37,11 +43,28 @@
 (defun filter (fn sequence)
   (remove-if-not fn sequence))
 
+(defmethod first-element ((thing sequence))
+  (elt thing 0))
+
+(defmethod second-element ((thing sequence))
+  (elt thing 1))
+
 (defmethod last-element ((thing list))
   (first (last thing)))
 
+(defmethod last-element ((thing sequence))
+  (elt thing (1- (length thing))))
+
+(defmethod next-last-element ((thing sequence))
+  (elt thing (- (length thing) 2)))
+
 (defmethod last-n-elements ((thing sequence)(n integer))
   (subseq thing (- (length thing) n) (length thing)))
+
+(defmethod leave ((n integer)(s sequence))
+  (if (< (length s) n)
+      s
+      (subseq s (- (length s) n))))
 
 (defun range (start end &optional (by 1))
   (loop for i from start below end by by collect i))

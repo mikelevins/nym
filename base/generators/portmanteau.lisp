@@ -32,4 +32,4 @@
 ;;; (progn (setf $samples (read-samples "/usr/share/dict/words")) t)
 ;;; (length $samples)
 ;;; (gen-portmanteau $samples)
-;;; (gen-portmanteaus $samples 20)
+;;; (gen-portmanteaus $samples 200)

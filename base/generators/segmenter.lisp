@@ -43,11 +43,10 @@
 (defun segmenter-gen-name (segmenter)
   (let* ((permitted-segments (folio2:get-key segmenter :permitted-segments))
          (onset (any (folio2:get-key segmenter :onsets)))
-         (codas (folio2:get-key segmenter :codas)))
+         (codas (alexandria:shuffle (folio2:get-key segmenter :codas))))
     (block searching
       (loop
          (unless codas (return-from searching nil))
-         (setf codas (alexandria:shuffle codas))
          (let* ((coda (first codas))
                 (candidate (concatenate 'string onset coda))
                 (segments (chunk-sequence candidate 3)))
@@ -56,15 +55,13 @@
                         segments)
              (return-from searching candidate)))))))
 
+(defun segmenter-gen-names (path count)
+  (let ((segmenter (make-segmenter path))
+        (result nil))
+    (loop while (< (length result) count)
+       do (let ((nm (segmenter-gen-name segmenter)))
+            (when nm (pushnew nm result))))
+    result))
 
-(defun segmenter-gen-names (segmenter count)
-  (loop for i from 0 below count collect (segmenter-gen-name segmenter)))
 
-;;; (setf $g (make-segmenter "~/Workshop/src/nym/data/gnome.names"))
-;;; (segmenter-gen-names $g 100)
-
-;;; (setf $v (make-segmenter "~/Workshop/src/nym/data/vulpera.names"))
-;;; (segmenter-gen-names $v 100)
-
-;;; (setf $us (make-segmenter "~/Workshop/src/nym/data/us.names"))
-;;; (segmenter-gen-names $us 100)
+;;; (segmenter-gen-names "~/Workshop/src/nym/data/gnome.names" 100)

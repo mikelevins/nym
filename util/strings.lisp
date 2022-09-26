@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym-base)
+(in-package #:nym)
 
 (defmethod empty-line? ((s string))
   (or (zerop (length s))

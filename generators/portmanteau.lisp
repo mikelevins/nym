@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym-base)
+(in-package #:nym)
 
 (defun gen-portmanteau (samples &key (max-tries 10))
   (block generating

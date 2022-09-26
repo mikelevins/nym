@@ -8,10 +8,10 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym-base)
+(in-package #:nym)
 
 (defun nym-data-directory ()
-  (asdf/system:system-relative-pathname :nym-base "data/"))
+  (asdf/system:system-relative-pathname :nym "data/"))
 
 (defun nym-data-file (filename)
   (merge-pathnames filename (nym-data-directory)))

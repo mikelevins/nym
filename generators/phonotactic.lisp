@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym-base)
+(in-package #:nym)
 
 (defparameter $letter-classes-1
   { 'V1 [ 'a 'o 'u ]

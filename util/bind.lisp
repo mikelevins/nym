@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym-base)
+(in-package #:nym)
 
 (defmacro bind (bindings &body body)
   (if (null bindings)

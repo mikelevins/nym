@@ -8,7 +8,7 @@
 ;;;;
 ;;;; ***********************************************************************
 
-(in-package #:nym-base)
+(in-package #:nym)
 
 (defmethod extend-chunk-travesty ((start string) (parts list) (ends list)
                                   &key
@@ -41,3 +41,4 @@
     (loop for i from 0 below count collect (gen-chunk-travesty starts parts ends :chunk-size chunk-size))))
 
 ;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/dickens.names") 50))
+;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/gnome.names") 50))

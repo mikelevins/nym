@@ -15,7 +15,7 @@
   :author "mikel evins <mikel@evins.net>"
   :license "Apache-2.0"
   :serial t
-  :depends-on (:alexandria :folio2)
+  :depends-on (:alexandria :folio2 :lift :org.melusina.confidence)
   :components ((:file "package")
                (:module "util"
                         :serial t

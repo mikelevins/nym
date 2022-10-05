@@ -12,19 +12,23 @@
 
 (in-package :cl-user)
 
-(defpackage :lift-tests
-  (:use :cl :nym :lift))
+(defpackage :confidence-tests
+  (:use :cl :nym :org.melusina.confidence))
 
-(lift:deftestsuite lift-tests () ())
+(in-package :confidence-tests)
 
-(lift:addtest (lift-tests)
-  test-read-samples
+(define-testcase test-read-samples ()
   (let* ((samples (nym::read-samples (asdf:system-relative-pathname :nym "data/us.names"))))
-    (lift:ensure (listp samples))
-    (lift:ensure (not (null samples)))))
+    (assert-t* (listp samples))
+    (assert-t* (not (null samples)))))
 
-(lift:addtest (lift-tests)
-  test-gen-100
+(define-testcase test-gen-100 ()
   (let* ((samples (nym::read-samples (asdf:system-relative-pathname :nym "data/us.names")))
          (names (nym::gen-chunk-travesties samples 100)))
-    (lift:ensure (= 10 (length names)))))
+    (assert-t* (= 100 (length names)))))
+
+(define-testcase run-tests ()
+  (test-read-samples)
+  (test-gen-100))
+
+#+nil (run-tests)

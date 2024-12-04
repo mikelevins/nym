@@ -40,5 +40,8 @@
          (ends (remove nil (mapcar #'last-element chunked-samples))))
     (loop for i from 0 below count collect (gen-chunk-travesty starts parts ends :chunk-size chunk-size))))
 
-;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/dickens.names") 50))
-;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/gnome.names") 500))
+;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/arthurian.names") 50))
+;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/forsaken.names") 50))
+;;; (time (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/gnome.names") 50))
+;;; (sort (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/dwarf.names") 50) 'string<)
+;;; (sort (gen-chunk-travesties (read-samples "~/Workshop/src/nym/data/troll.names") 50) 'string<)

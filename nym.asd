@@ -32,3 +32,4 @@
 
 
 ;;; (asdf:load-system :nym)
+;;; (ql:quickload :nym)

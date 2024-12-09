@@ -35,6 +35,8 @@
     (loop for (key val . rest) in (folio3::take-by 2 1 name-chunks)
           do (add-value-for-key nametable key val))))
 
+#+test (chunk-name "Aho")
+
 (defun make-nametable (samples-path)
   (let ((names (read-samples samples-path))
         (table (folio3::hashtable 'equal)))
@@ -42,10 +44,13 @@
       (register-name table name))
     table))
 
+#+test (setf $tbl (make-nametable (asdf:system-relative-pathname :nym "data/wow-draenei.names")))
+#+test (series::collect (folio3::filter #'name-start? (folio3::all-keys $tbl)))
+
 (defmethod name-start? ((chunk string))
-  (< (char-code #\A)
+  (< 64
      (char-code (folio3::1st chunk))
-     (char-code #\Z)))
+     91))
 
 (defun extend-name (nametable chunks)
   (let* ((last (folio3::last-element chunks))

@@ -19,7 +19,7 @@
 
 #+test (setf $nym (contain (make-instance 'nym)))
 
-(defparameter *default-name-count* 20)
+(defparameter *default-name-count* 12)
 
 (define-interface nym ()
   ;; -- slots ---------------------------------------------
@@ -45,7 +45,7 @@
                                   (if namefile
                                       (let* ((nametable (make-nametable namefile))
                                              (names (sort (generate-names nametable (name-count interface))
-                                                          #'string<)))
+                                                          (lambda (p1 p2)(string< (pathname-name p1)(pathname-name p1))))))
                                         (loop for nm in names 
                                               do (format (collector-pane-stream (name-collector interface)) "~%~A" nm)))
                                     (capi:display-message "First you must choose a naming language!")))))
@@ -72,9 +72,8 @@
 (defun make-language-menu (button)
   (make-instance 'capi:menu
                  :items-function (lambda (interface)
-                                   (sort (directory (asdf:system-relative-pathname :nym "data/*.names"))
-                                         (lambda (x y)(string< (pathname-name x)
-                                                               (pathname-name y)))))
+                                   (sort (series:collect (folio3::all-keys +nametables+))
+                                         (lambda (p1 p2)(string< (pathname-name p1)(pathname-name p2)))))
                  :print-function (lambda (item)(string-capitalize (pathname-name item)))
                  :callback 'language-menu-callback
                  :callback-type :data-interface

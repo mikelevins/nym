@@ -14,6 +14,25 @@
 ;;; namer
 ;;; ---------------------------------------------------------------------
 
+(defparameter +nametables+ (folio3::hashtable 'equal))
+
+(defun list-namefiles ()
+  (sort (directory (asdf:system-relative-pathname :nym "data/WOW/*.names"))
+        (lambda (x y)(string< (pathname-name x)
+                              (pathname-name y)))))
+
+#+test (list-namefiles)
+
+(defun init-nametables ()
+  (let* ((namefiles (list-namefiles)))
+    (loop for namefile in namefiles
+          do (let* ((table (make-nametable namefile)))
+               (setf (gethash namefile +nametables+)
+                     table)))
+    +nametables+))
+
+#+test (init-nametables)
+
 (defun read-samples (path)
   (folio3::tap :lines (pathname path)))
 

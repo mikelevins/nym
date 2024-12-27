@@ -18,11 +18,12 @@
     :license "Apache-2.0"
     :serial t
     :version (:read-file-form "../version.lisp")
-    :depends-on (:alexandria :folio3+ :command-line-arguments)
+    :depends-on (:alexandria :hunchentoot :folio3+ :command-line-arguments)
     :components ((:module "src"
                           :serial t
                           :components ((:file "package")
-                                       (:file "utils"))))
+                                       (:file "utils")
+                                       (:file "namer"))))
   :build-operation asdf/bundle:program-op
   :build-pathname "nym"
   :entry-point "nym::main")
